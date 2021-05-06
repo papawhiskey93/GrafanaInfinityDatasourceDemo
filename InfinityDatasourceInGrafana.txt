@@ -1,0 +1,41 @@
+----install infinity plugin 
+grafana-cli --pluginUrl https://github.com/yesoreyeram/grafana-infinity-datasource/releases/download/v0.6.0-alpha2/yesoreyeram-infinity-datasource-0.6.0.zip plugins install yesoreyeram-infinity-datasource
+
+----restart grafana-cli
+service grafana-server restart
+
+--------nodejs service
+1. microservice is listening on 3333
+2. upon initialization it connect with mongodb service with provided url,colletions specifed.
+3. this service receives rest api call /query. on which it perform findall operation in mongodb in given collection and send this array data in response
+
+------mongodb
+1. mongodb url : 'mongodb://localhost:27017/';
+2. collection : 'test'
+3. data in test collection :
+{ "_id" : ObjectId("609256b2131c994029c4caec"), "key1" : "value 1", "key2" : "value 2" }
+{ "_id" : ObjectId("6092584a131c994029c4caed"), "key1" : "value 1", "key2" : "value 2" }
+{ "_id" : ObjectId("609372ba3c6559256436810a"), "key1" : "value 11", "key2" : "value 22" }
+{ "_id" : ObjectId("6093756d3c6559256436810b"), "key1" : "value 33", "key2" : "value 33", "key3" : "random333" }
+{ "_id" : ObjectId("6093757c3c6559256436810c"), "key1" : "value 44" }
+{ "_id" : ObjectId("609375923c6559256436810d"), "key11" : "value 33", "key22" : "value 33", "key33" : "random333" }
+
+----grafana dashboard
+1. create grafana datasource of installed infinity plugin.
+2. specify datasource url. for above test setup, datasourse url is http://localhost:3333/query
+3. create grafana dashboard, add panel to it.
+4. in above created panel select datasouce (we created in setup 1) here in Query tab.
+5. in Query , select type as JSON , source as URL.
+6. now we need to specify rest api call in URL section. here, URL is http://localhost:3333/query.
+7. Lastly enter the columns in columns sections which we selects from response array given on rest api call specifed in above step.
+
+
+-------------link
+
+https://github.com/yesoreyeram/grafana-infinity-datasource
+https://sriramajeyam.com/grafana-infinity-datasource/wiki/features.html#features
+
+
+---------------dummy testing url fir data source
+https://jsonplaceholder.typicode.com/todos
+(explanation ----> https://sriramajeyam.com/grafana-infinity-datasource/wiki/json.html#json-url )
