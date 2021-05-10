@@ -43,8 +43,9 @@ service grafana-server restart
 
 
 -----for nested JSON
+(in Panel edit)
 1. For Json Object 
-	- add comun name in query of infinity datatsource,
+	- add column name in query of infinity datasource,
 	- then go overrides menu in right side of panel.
 	- select field with name, select the jason field(Payload in demo example),
 `	-now select call display mode as "JSON view".
