@@ -11,14 +11,25 @@ service grafana-server restart
 
 ------mongodb
 1. mongodb url : 'mongodb://localhost:27017/';
-2. collection : 'test'
+2. collection : 'DummyTestData1' and 2
 3. data in test collection :
-{ "_id" : ObjectId("609256b2131c994029c4caec"), "key1" : "value 1", "key2" : "value 2" }
-{ "_id" : ObjectId("6092584a131c994029c4caed"), "key1" : "value 1", "key2" : "value 2" }
-{ "_id" : ObjectId("609372ba3c6559256436810a"), "key1" : "value 11", "key2" : "value 22" }
-{ "_id" : ObjectId("6093756d3c6559256436810b"), "key1" : "value 33", "key2" : "value 33", "key3" : "random333" }
-{ "_id" : ObjectId("6093757c3c6559256436810c"), "key1" : "value 44" }
-{ "_id" : ObjectId("609375923c6559256436810d"), "key11" : "value 33", "key22" : "value 33", "key33" : "random333" }
+ 
+> db.DummyTestData1.find( { } )
+{ "_id" : ObjectId("6098faaf95e9ed19328a81bc"), "OperationCode" : 100, "Messagetype" : 1112, "Payload" : { "TenantId" : "1", "TenantName" : "Angel Securities", "ExchangeAllowed" : [ 1, 2, 4 ] } }
+{ "_id" : ObjectId("6098facc95e9ed19328a81bd"), "OperationCode" : 100, "Messagetype" : 1112, "Payload" : { "TenantId" : "2", "TenantName" : "Angel Securities", "ExchangeAllowed" : [ 1, 2, 4, 5, 7 ] } }
+{ "_id" : ObjectId("6098fae295e9ed19328a81be"), "OperationCode" : 102, "Messagetype" : 1112, "Payload" : { "TenantId" : "2", "TenantName" : "Angel Securities", "ExchangeAllowed" : [ 1, 5, 7 ] } }
+{ "_id" : ObjectId("6098fb2795e9ed19328a81bf"), "OperationCode" : 100, "Messagetype" : 1112, "Payload" : { "TenantId" : "3", "TenantName" : "Birla Life", "ExchangeAllowed" : [ 1, 2, 4, 8, 16 ] } }
+{ "_id" : ObjectId("6098fb5395e9ed19328a81c0"), "OperationCode" : 102, "Messagetype" : 1112, "Payload" : { "TenantId" : "3", "TenantName" : "Birla Life" } }
+{ "_id" : ObjectId("6098fb7c95e9ed19328a81c1"), "OperationCode" : 105, "Messagetype" : 1112, "Payload" : { "TenantId" : "3", "TenantName" : "Birla Life", "ExchangeAllowed" : [ 1, 2, 4, 8, 16 ] } }
+{ "_id" : ObjectId("6098fba295e9ed19328a81c2"), "OperationCode" : 100, "Messagetype" : 1112, "Payload" : { "TenantId" : "4", "TenantName" : "Omnisys", "ExchangeAllowed" : [ 1, 2, 4, 8, 16 ] } }
+ 
+
+> db.DummyTestData2.find( { } )
+{ "_id" : ObjectId("6098fd3595e9ed19328a81c3"), "OperationCode" : 100, "Messagetype" : 1112, "Payload" : { "TenantId" : "1", "TenantName" : "Angel Securities", "ExchangeAllowed" : [ 1, 2, 4 ] } }
+{ "_id" : ObjectId("6098fd3595e9ed19328a81c4"), "OperationCode" : 100, "Messagetype" : 1113, "Payload" : { "ExchangeId" : "1", "ExchangeName" : "MCX" } }
+{ "_id" : ObjectId("6098fd3595e9ed19328a81c5"), "OperationCode" : 101, "Messagetype" : 1207, "Payload" : { "TenantId" : "1", "TemplateId" : "MCX_SBRT_R2" } }
+{ "_id" : ObjectId("6098fd3595e9ed19328a81c6"), "OperationCode" : 102, "Messagetype" : 1203, "Payload" : { "ExchangeInstrument" : "INST_R3", "Token" : "STAR", "ExchangeId" : 1 } }
+
 
 ----grafana dashboard
 1. create grafana datasource of installed infinity plugin.
@@ -30,11 +41,28 @@ service grafana-server restart
 7. Lastly enter the columns in columns sections which we selects from response array given on rest api call specifed in above step.
 
 
+
+-----for nested JSON
+1. For Json Object 
+	- add comun name in query of infinity datatsource,
+	- then go overrides menu in right side of panel.
+	- select field with name, select the jason field(Payload in demo example),
+`	-now select call display mode as "JSON view".
+now the whole json object will get listed under the column name specified in query.			
+
+2. For Nested json Value.
+	- we can also specify inner json field (e.g Payload.TenantName or Payload.TenantId) while adding column selector in query for infinity datasource.
+
+below link will show discussion for reference 
+
+https://github.com/yesoreyeram/grafana-infinity-datasource/discussions/34
+
+
+
 -------------link
 
 https://github.com/yesoreyeram/grafana-infinity-datasource
 https://sriramajeyam.com/grafana-infinity-datasource/wiki/features.html#features
-
 
 ---------------dummy testing url fir data source
 https://jsonplaceholder.typicode.com/todos
